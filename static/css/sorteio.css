@@ -368,6 +368,17 @@ input[type="number"].quantidade-input {
   margin-right: 0px;
 }
 
+.info-sorteio {
+  background-color: #fff0f5;
+  border: 1px dashed #d6006d;
+  padding: 10px 14px;
+  border-radius: 8px;
+  font-size: 13px;
+  color: #d6006d;
+  margin-bottom: 20px;
+  text-align: center;
+}
+
 .bonus {
   background-color: #fff5fb;
   border: 2px dashed #ff4da6;
