@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>Rifa iPhone 15</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/sorteio.css') }}">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+</head>
+<body>
+</head>
+<body>
+    <div class="container">
+        <!-- Imagem de capa -->
+        <img src="/static/img/sorteio/imagem_sorteio.png" class="banner"/>
+
+        <!-- Título -->
+        <h1>iPhone 15 + PIX de R$300 🐝 Vem tentar a sorte, princesa!</h1>
+        <p class="valor-cota" id="valor-principal">R$ 0,99</p>
+
+        <!-- Pacote promocional -->
+        <div class="pacotes">
+            <button data-quantidade="30">30 bilhetes por R$ 24,90</button>
+            <button data-quantidade="20">20 bilhetes por R$ 15,90</button>
+        </div>
+
+        <!-- Regulamento -->
+        <div class="regulamento">
+            <h3>📜 PRÊMIOS DO SORTEIO:</h3>
+            <ul>
+                <li>🎁 1º Lugar: iPhone 15 zerado na caixa</li>
+                <li>💸 2º Lugar: PIX de R$300</li>
+                <li>💰 3º Lugar: PIX de R$100</li>
+            </ul>
+            <p>🎟️ Só R$0,99 por cota<br>
+                🎯 2.000 cotas no total<br>
+                🏛️ Sorteio pela Loteria Federal
+            </p>
+        </div>
+
+        <!-- Seletor de bilhetes -->
+        <div class="bilhetes">
+            <p>Quanto mais comprar, maior a chance de ganhar!</p>
+            <div class="btn-group">
+                <button>+1</button>
+                <button>+10</button>
+                <button>+25</button>
+                <button>+100</button>
+            </div>
+            <div class="qtd">
+                <button class="menos">-</button>
+                <input type="number" class="quantidade-input" value="10" min="10" max="100" inputmode="numeric" />
+                <button class="mais">+</button>
+            </div>
+            <button class="comprar" id="btn-comprar">Comprar Agora</button>
+
+            <div id="pixArea" style="display:none; text-align:center; margin-top: 20px;">
+                <img id="qrcodeImg" style="max-width: 300px; margin-bottom: 10px;">
+                <p><strong>Copie e cole o código PIX:</strong></p>
+                <p id="qrcodeTexto" style="word-break: break-all;"></p>
+                <button onclick="copiarCodigo()">Copiar código</button>
+            </div>
+        </div>
+
+        <!-- Organizador -->
+        <div class="organizador">
+            <p>Organizado por <strong>Luísa Ferreira</strong></p>
+        </div>
+    </div>
+</div>
+<!-- Modal de Cadastro -->
+<div id="modal-cadastro">
+  <div class="modal-content">
+    <h2>Preencha seus dados</h2>
+    <label>Nome completo</label>
+    <input type="text" id="nome" placeholder="Seu nome">
+    <label>Celular</label>
+    <input type="tel" id="celular" placeholder="(11) 91234-5678">
+    <label>Email</label>
+    <input type="email" id="email" placeholder="seu@email.com">
+    <label><strong>Quer aumentar suas chances?</strong></label>
+    <div class="bump-box-alerta">
+      <div class="bump-alerta-topo">
+        <i class="fa-solid fa-arrow-right seta-icon"></i>
+        <input type="checkbox" id="bumpMaisNumeros" />
+        <span class="bump-alerta-titulo"><strong>SIM! Quero +20 números com 50% de desconto</strong></span>
+      </div>
+      <p class="bump-explicacao">
+        <strong style="color: #d6006d;">Oferta única:</strong> aproveite para aumentar suas chances com <strong>por apenas R$ 9,90</strong> agora.
+      </p>
+    </div>
+    <button onclick="enviarCadastro()" class="btn-confirmar">Concluir cadastro e pagar</button>
+    <button onclick="document.getElementById('modal-cadastro').style.display='none'" class="btn-fechar">Fechar</button>
+  </div>
+</div>
+    <script src="{{ url_for('static', filename='js/sorteio.js') }}"></script>
+</div>
+</body>
+</html>

@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <title>Quase lá...</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css" integrity="sha512-Evv84Mr4kqVGRNSgIGL/F/aIDqQb7xQ2vcrdIwxfjThSH8CSR7PBEakCr51Ck+w+/U6swU2Im1vVX0SVk9ABhg==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/presell.css') }}">
+
+
+</head>
+<body>
+  <h1>Quase lá...</h1>
+  <p><strong>Estamos conectando você à campanha oficial.</strong></p>
+  <div id="container-eye" style="display:flex; align-items: center; gap: 8px; margin-top: 10px;">
+    <i class="fa-solid fa-eye"></i>
+    <p class="counter"><span id="viewers">0000</span> pessoas estão participando agora!</p>
+  </div>
+
+  <div class="progress-container">
+    <svg width="160" height="160">
+      <circle class="progress-bg" cx="80" cy="80" r="70" stroke-width="15" fill="none" />
+      <circle id="progress" class="progress-bar" cx="80" cy="80" r="70" stroke-width="15" fill="none"
+        stroke-linecap="round" stroke-dasharray="439.6" stroke-dashoffset="439.6" />
+    </svg>
+    <div class="percent-text" id="percent">0%</div>
+  </div>
+
+
+<script src="{{ url_for('static', filename='js/presell.js') }}"></script>
+</body>
+</html>

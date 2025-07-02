@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Pagamento via PIX</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.7.2/css/all.min.css">
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/pagamento.css') }}">
+</head>
+<body 
+  data-nome="{{ nome }}" 
+  data-produto="{{ produto }}" 
+  data-quantidade="{{ quantidade }}" 
+  data-valor="{{ total }}">
+  <div class="container">
+    <h2>⏳ Você tem <span id="contador">10:00</span> para pagar</h2>
+    <p>Siga os passos abaixo para completar o pagamento via PIX:</p>
+
+    <div class="pix-benefits">
+      <div class="benefit">
+        <i class="fas fa-clock"></i>
+        <div>
+          <strong>Transferência Instantânea</strong>
+          <p>Pagamento confirmado em segundos, sem esperas.</p>
+        </div>
+      </div>
+      <div class="benefit">
+        <i class="fas fa-qrcode"></i>
+        <div>
+          <strong>Praticidade Máxima</strong>
+          <p>Escaneie o QR Code ou copie o código PIX.</p>
+        </div>
+      </div>
+      <div class="benefit">
+        <i class="fas fa-shield-alt"></i>
+        <div>
+          <strong>Segurança Garantida</strong>
+          <p>Tecnologia do Banco Central para sua tranquilidade.</p>
+        </div>
+      </div>
+    </div>
+
+    <div id="pixArea">
+      <input type="text" id="qrcodeTexto" class="pix-codigo" readonly>
+      <button onclick="copiarCodigo()"><i class="fas fa-copy"></i> Copiar código PIX</button>
+    </div>
+
+    <p class="ou">ou</p>
+
+    <div class="qrcode" style="display: none;">
+      <img id="qrcodeImg" alt="QR Code do Pix">
+    </div>
+
+    <button class="btn-exibir-qrcode" onclick="document.querySelector('.qrcode').style.display = 'block'; this.style.display = 'none';">
+      <i class="fas fa-qrcode"></i> Exibir QR Code
+    </button>
+
+    <p class="alerta"><i class="fas fa-exclamation-triangle"></i> Este pagamento deve ser feito dentro do tempo. Caso contrário, os títulos voltam a ficar disponíveis.</p>
+
+    <div class="resumo-compra">
+      <h3>Resumo da Compra</h3>
+      <ul>
+        <li><strong>Produto:</strong> {{ produto }}</li>
+        <li><strong>Comprador:</strong> {{ nome }}</li>
+        <li><strong>Quantidade:</strong> {{ quantidade }} títulos</li>
+        <li><strong>Total:</strong> R$ {{ total }}</li>
+        <li><strong>Data/Hora:</strong> {{ data_hora }}</li>
+      </ul>
+    </div>
+  </div>
+
+  <script src="https://cdn.socket.io/4.4.1/socket.io.min.js"></script>
+  <script src="{{ url_for('static', filename='js/pagamento.js') }}"></script>
+</body>
+</html>
