@@ -1,14 +1,11 @@
 from datetime import datetime
 import requests
-from dotenv import load_dotenv
 import os
-from flask import Flask, render_template, redirect, url_for, request, jsonify
+from flask import Flask, render_template, request, jsonify
 from flask_sqlalchemy import SQLAlchemy
 from flask_socketio import SocketIO, emit, join_room
 from sqlalchemy import func
-import eventlet
-eventlet.monkey_patch()
-
+from dotenv import load_dotenv
 
 load_dotenv()
 
@@ -27,11 +24,6 @@ PRECO_POR_BILHETE = float(os.environ.get("PRECO_POR_BILHETE", "0.99"))
 @app.route("/presell")
 def presell():
     return render_template("page_presell/index.html")
-
-
-@app.route("/obrigado")
-def obrigado():
-    return render_template("obrigado/index.html")
 
 
 @app.route("/")
@@ -54,16 +46,12 @@ def gerar_pix():
     except ValueError:
         return "Quantidade inválida", 400
 
-    # substitua pelo seu link de webhook
-    webhook_url = "https://pagina-sorteio.onrender.com/webhook"
-
     headers = {
         "Authorization": f"Bearer {PUSHINPAY_TOKEN}",
         "Content-Type": "application/json"
     }
     payload = {
         "value": int(round(valor_total * 100)),
-        "webhook_url": webhook_url,
         "external_reference": f"{datetime.now().timestamp()}_{produto}",
         "split_rules": []
     }
@@ -156,66 +144,11 @@ def healthz():
     return "ok", 200
 
 
-@app.route("/webhook", methods=["POST"])
-def webhook():
-    try:
-        print("Headers recebidos:", request.headers)
-        print("Content-Type:", request.content_type)
-        print("Body bruto:", request.data.decode())
-
-        if request.is_json:
-            dados = request.get_json()
-        elif request.content_type == "application/x-www-form-urlencoded":
-            dados = request.form.to_dict()
-        else:
-            print("Webhook recebido com Content-Type inválido:",
-                  request.content_type)
-            return jsonify({"erro": "Requisição deve ser JSON ou form-urlencoded"}), 415
-
-        print("Dados interpretados:", dados)
-
-        chave = dados.get("chave") or dados.get("id")
-        status = dados.get("status")
-        if status:
-            status = status.lower()
-            if status == "paid":
-                status = "pago"
-            elif status == "pending":
-                status = "pendente"
-
-        print("Chave recebida no webhook:", chave)
-        print("Status recebido:", status)
-
-        if not chave or not status:
-            return jsonify({"erro": "Dados incompletos"}), 400
-
-        transacao = Transacao.query.filter(func.lower(
-            Transacao.chave) == chave.lower()).first()
-        if transacao:
-            transacao.status = status
-            db.session.commit()
-            print(f"Emitindo evento pagamento_confirmado para chave: {chave}")
-            socketio.emit("pagamento_confirmado", {"chave": chave}, room=chave)
-            print(f"Transação {chave} atualizada para {status}")
-            return jsonify({"ok": True})
-        else:
-            return jsonify({"erro": "Transação não encontrada"}), 404
-
-    except Exception as e:
-        print("Erro no processamento do webhook:", e)
-        return jsonify({"erro": f"Erro interno no servidor: {str(e)}"}), 500
-
-
 @socketio.on("join")
 def handle_join(chave):
     print(f"Cliente entrou na sala: {chave}")
     join_room(chave)
 
 
-# if __name__ == "__main__":
-#     socketio.run(app, debug=True, host='0.0.0.0', port=5001)
-
 if __name__ == "__main__":
-    from os import environ
-    socketio.run(app, host="0.0.0.0", port=int(
-        environ.get("PORT", 5000)), debug=True)
+    socketio.run(app, host="0.0.0.0", port=5001, debug=True)
